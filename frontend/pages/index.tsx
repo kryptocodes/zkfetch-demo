@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Inter } from 'next/font/google';
 import { useCookies } from 'react-cookie';
-import { useAccount, useWriteContract } from 'wagmi';
+import { useAccount, useSwitchChain, useWriteContract, useConfig } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import ProofDisplay from '../components/ProofDisplay';
 import ActionButton from '../components/Button';
 import ABI from '../contract/ABI.json';
 import toast, { Toaster } from 'react-hot-toast';
+import { arbitrumSepolia } from 'viem/chains';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
 
 const API = 'https://54.169.171.35.nip.io'
 export default function Home() {
-  const { isConnected } = useAccount();
+  const { isConnected, chainId, connector } = useAccount();
+  const { switchChainAsync } = useSwitchChain();
   const { openConnectModal } = useConnectModal();
   const [cookies] = useCookies(["reclaim"]);
   const [user, setUser] = useState(false);
@@ -70,7 +73,12 @@ export default function Home() {
 
   const verifyProof = async () => {
     if (!isConnected) {
-      alert("Please connect your wallet");
+      toast.error("Connect your wallet to verify proof");
+      return;
+    }
+    if(isConnected && chainId !== 421611) {
+      toast.error("Please switch to Arbitrum Testnet");
+      await switchChainAsync({ chainId: 421611 });
       return;
     }
     try {
@@ -83,7 +91,7 @@ export default function Home() {
       });
 
       if(tx) {
-        alert("Transaction sent");
+        toast.success('Proof Verified');
       }
       console.log(tx, hash);
       console.log("Proof Verified");
