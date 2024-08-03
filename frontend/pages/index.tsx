@@ -6,6 +6,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import ProofDisplay from '../components/ProofDisplay';
 import ActionButton from '../components/Button';
 import ABI from '../contract/ABI.json';
+import axios from 'axios';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,14 +28,10 @@ export default function Home() {
 
   const fetchUserLoginStatus = async () => {
     try {
-      const res = await fetch("https://54.169.171.35.nip.io/user/isLoggedIn", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
+      const res = await axios.get("https://54.169.171.35.nip.io/user/isLoggedIn", {
+        withCredentials: true,
       });
-      const data = await res.json();
+      const data = res.data;
       if(data.loggedIn) {
          setUser(data);
       }
