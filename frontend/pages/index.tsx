@@ -31,7 +31,7 @@ export default function Home() {
 
   const fetchUserLoginStatus = async () => {
     try {
-      const res = await fetch("http://localhost:5000/user/isLoggedIn", {
+      const res = await fetch("https://m8aanm1noe.execute-api.ap-southeast-1.amazonaws.com/user/isLoggedIn", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export default function Home() {
   const fetchProof = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/user/info", {
+      const res = await fetch("https://m8aanm1noe.execute-api.ap-southeast-1.amazonaws.com/user/info", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
