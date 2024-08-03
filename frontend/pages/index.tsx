@@ -35,8 +35,9 @@ export default function Home() {
         credentials: "include",
       });
       const data = await res.json();
-      console.log(data);
-      setUser(data);
+      if(data.loggedIn) {
+         setUser(data);
+      }
     } catch (error) {
       console.log(error);
     }
