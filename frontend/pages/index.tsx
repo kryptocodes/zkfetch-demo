@@ -129,7 +129,7 @@ export default function Home() {
           />
         ) : (
           <ActionButton
-            onClick={() => window.open("http://localhost:5000/twitter/auth", "_self")}
+            onClick={() => window.open("https://m8aanm1noe.execute-api.ap-southeast-1.amazonaws.com/twitter/twitter/auth", "_self")}
             isLoading={false}
             label="Login with Twitter"
           />
