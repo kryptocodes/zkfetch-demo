@@ -19,11 +19,7 @@ export default function Home() {
   const [txLoading, setTxLoading] = useState(false);
 
   useEffect(() => {
-    if (cookies.reclaim) {
-      setTimeout(() => {
-        fetchUserLoginStatus();
-      }, 1000);
-    }
+    fetchUserLoginStatus();
   }, [cookies]);
 
   const { data: hash, isPending, writeContractAsync } = useWriteContract();
