@@ -27,7 +27,7 @@ export default function Home() {
 
   const fetchUserLoginStatus = async () => {
     try {
-      const res = await fetch("https://m8aanm1noe.execute-api.ap-southeast-1.amazonaws.com/user/isLoggedIn", {
+      const res = await fetch("https://54.169.171.35.nip.io/user/isLoggedIn", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export default function Home() {
   const fetchProof = async () => {
     try {
       setLoading(true);
-      const res = await fetch("https://m8aanm1noe.execute-api.ap-southeast-1.amazonaws.com/user/info", {
+      const res = await fetch("https://54.169.171.35.nip.io/user/info", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export default function Home() {
           />
         ) : (
           <ActionButton
-            onClick={() => window.open("https://m8aanm1noe.execute-api.ap-southeast-1.amazonaws.com/twitter/auth", "_self")}
+            onClick={() => window.open("https://54.169.171.35.nip.io/twitter/auth", "_self")}
             isLoading={false}
             label="Login with Twitter"
           />
