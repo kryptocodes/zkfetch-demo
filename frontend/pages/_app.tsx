@@ -17,7 +17,7 @@ import {
 
 const config = getDefaultConfig({
   appName: 'zkfetch',
-  projectId: 'YOUR_PROJECT_ID',
+  projectId: '0d9656153fef40b42878cab6a5feef69',
   chains: [arbitrumSepolia],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
