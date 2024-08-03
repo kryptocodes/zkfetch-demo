@@ -6,10 +6,12 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import ProofDisplay from '../components/ProofDisplay';
 import ActionButton from '../components/Button';
 import ABI from '../contract/ABI.json';
-import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
+
+const API = 'https://54.169.171.35.nip.io'
 export default function Home() {
   const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
@@ -28,10 +30,14 @@ export default function Home() {
 
   const fetchUserLoginStatus = async () => {
     try {
-      const res = await axios.get("https://54.169.171.35.nip.io/user/isLoggedIn", {
-        withCredentials: true,
+      const res = await fetch(`${API}/user/isLoggedIn`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
       });
-      const data = res.data;
+      const data = await res.json();
       if(data.loggedIn) {
          setUser(data);
       }
@@ -44,7 +50,7 @@ export default function Home() {
   const fetchProof = async () => {
     try {
       setLoading(true);
-      const res = await fetch("https://54.169.171.35.nip.io/user/info", {
+      const res = await fetch(`${API}/user/info`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -56,6 +62,7 @@ export default function Home() {
       setProof(data);
       setLoading(false);
     } catch (error) {
+      toast.error(`Oops! you have been rateLimited, try again later`);
       console.log(error);
       setLoading(false);
     }
@@ -82,6 +89,7 @@ export default function Home() {
       console.log("Proof Verified");
       setTxLoading(false);
     } catch (error) {
+      toast.error(`${error}`);
       console.log(error);
       setTxLoading(false);
     }
@@ -89,6 +97,7 @@ export default function Home() {
 
   return (
     <>
+    <Toaster position='top-right' />
     <main className={`flex flex-col items-center justify-center p-8 ${inter.className} bg-gray-50 relative`}>
    
       <h1 className="text-4xl md:text-6xl font-bold text-center mb-4 text-gray-800">
@@ -110,20 +119,13 @@ export default function Home() {
           />
         ) : proof ? (
           <ActionButton
-            onClick={() => {
-              if(!isConnected) {
-                openConnectModal
-                return;
-              } else {
-                verifyProof();
-              }
-            }}
+            onClick={() => isConnected ? verifyProof() : openConnectModal?.()}
             isLoading={txLoading || isPending}
             label="Verify Proof"
           />
         ) : (
           <ActionButton
-            onClick={() => window.open("https://54.169.171.35.nip.io/twitter/auth", "_self")}
+            onClick={() => window.open(`${API}/twitter/auth`, "_self")}
             isLoading={false}
             label="Login with Twitter"
           />
