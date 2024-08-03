@@ -76,8 +76,8 @@ export default function Home() {
       toast.error("Connect your wallet to verify proof");
       return;
     }
-    if(isConnected && chainId !== 421611) {
-      toast.error("Please switch to Arbitrum Testnet");
+    if(isConnected && chainId !== arbitrumSepolia.id) {
+      toast.error("Please switch to Arbitrum Sepolia");
       await switchChainAsync({ chainId: 421611 });
       return;
     }
