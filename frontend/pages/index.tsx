@@ -95,8 +95,6 @@ export default function Home() {
 
   return (
     <>
-     
-    
     <main className={`flex flex-col items-center justify-center p-8 ${inter.className} bg-gray-50 relative`}>
    
       <h1 className="text-4xl md:text-6xl font-bold text-center mb-4 text-gray-800">
