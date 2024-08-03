@@ -13,7 +13,6 @@ export default function Document() {
       <meta property="og:description" content="zkfetch demo app" />
 
       <body>
-        <NavBar />
         <Main />
         <NextScript />
       </body>

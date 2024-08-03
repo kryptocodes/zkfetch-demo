@@ -8,14 +8,15 @@ import ActionButton from '../components/Button';
 import ABI from '../contract/ABI.json';
 import toast, { Toaster } from 'react-hot-toast';
 import { arbitrumSepolia } from 'viem/chains';
-
+import NavBar from '@/components/NavBar';
+import { API } from './_app';
 
 const inter = Inter({ subsets: ["latin"] });
 
 
-const API = 'https://54.169.171.35.nip.io'
+
 export default function Home() {
-  const { isConnected, chainId, connector } = useAccount();
+  const { isConnected, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   const { openConnectModal } = useConnectModal();
   const [cookies] = useCookies(["reclaim"]);
@@ -23,6 +24,7 @@ export default function Home() {
   const [proof, setProof] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [txLoading, setTxLoading] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     fetchUserLoginStatus();
@@ -78,7 +80,7 @@ export default function Home() {
     }
     if(isConnected && chainId !== arbitrumSepolia.id) {
       toast.error("Please switch to Arbitrum Sepolia");
-      await switchChainAsync({ chainId: 421611 });
+      await switchChainAsync({ chainId: arbitrumSepolia.id });
       return;
     }
     try {
@@ -96,6 +98,7 @@ export default function Home() {
       console.log(tx, hash);
       console.log("Proof Verified");
       setTxLoading(false);
+      setIsVerified(true);
     } catch (error) {
       toast.error(`${error}`);
       console.log(error);
@@ -105,6 +108,7 @@ export default function Home() {
 
   return (
     <>
+    <NavBar isLoggedin={user} />
     <Toaster position='top-right' />
     <main className={`flex flex-col items-center justify-center p-8 ${inter.className} bg-gray-50 relative`}>
    
@@ -129,7 +133,7 @@ export default function Home() {
           <ActionButton
             onClick={() => isConnected ? verifyProof() : openConnectModal?.()}
             isLoading={txLoading || isPending}
-            label="Verify Proof"
+            label={isVerified ? "Proof Verified" : "Verify Proof"}
           />
         ) : (
           <ActionButton

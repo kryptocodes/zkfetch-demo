@@ -24,6 +24,7 @@ const config = getDefaultConfig({
 
 const queryClient = new QueryClient();
 
+export const API = 'https://54.169.171.35.nip.io'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
