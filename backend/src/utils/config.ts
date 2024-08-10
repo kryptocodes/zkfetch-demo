@@ -5,8 +5,8 @@ import { TwitterApi } from 'twitter-api-v2';
 dotenv.config();
 
 export const TOKENS = {
-  clientId: 'MjNQdjNmQ1VZcjFpSjYyNGpNZ286MTpjaQ',
-  clientSecret: 'LMh8q_sm8HEcdoxTR98g-1qBugQ7PIdEaK8_RaCLGtBBWfyXMO',
+  clientId: process.env.CLIENTID,
+  clientSecret: process.env.CLIENTSECRET,
 };
 
 // Create client used to generate auth links only
