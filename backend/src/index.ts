@@ -1,5 +1,4 @@
 import express, { NextFunction, Request, Response } from 'express';
-import cookieParser from 'cookie-parser';
 import session from 'cookie-session';
 import cors from 'cors';
 import routes from './routes';
@@ -9,18 +8,22 @@ dotenv.config();
 
 const app = express();
 
+app.set('trust proxy', 1);
 
 app.use(cors({
   origin: process.env.CLIENT_URL!,
   credentials: true,
 }));
-app.use(cookieParser());
 app.use(session({
   secret: process.env.SECRET!,
-  maxAge: 24 * 60 * 60 * 1000,
+  maxAge: 2 * 60 * 60 * 1000,
   name: 'reclaim',
-  httpOnly: process.env.NODE_ENV === 'development' ? false : true,
+  httpOnly: process.env.NODE_ENV !== 'development',
+  secure: process.env.NODE_ENV !== 'development',
+  sameSite: 'none'
 }));
+
+
 
 // Error handler
 app.use((err: any, _: Request, res: Response, __: NextFunction) => {

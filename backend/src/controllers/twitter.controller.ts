@@ -28,10 +28,8 @@ export const callbackController = asyncWrapOrError(async (req: any, res: Respons
   const { codeVerifier, state: sessionState } = req.session;
 
   if (!codeVerifier || !state || !sessionState || !code) {
-    return res.status(400).send("You denied the app or your session expired!");
-  }
-  if (state !== sessionState) {
-    return res.status(400).send("Stored tokens didnt match!");
+   return res.redirect(process.env.CLIENT_URL! + '?error=missing_session_data');}   if (state !== sessionState) {
+    return res.redirect(process.env.CLIENT_URL! + '?error=invalid_state');
   }
 
   const tempClient = new TwitterApi({ ...TOKENS });
@@ -44,7 +42,7 @@ export const callbackController = asyncWrapOrError(async (req: any, res: Respons
   req.session.accessToken = accessToken;
   req.session.refreshToken = refreshToken;
   req.session.expiresIn = expiresIn;
-  return res.redirect("http://localhost:3000");
+  return res.redirect(process.env.CLIENT_URL!);
 });
 
 export const userInfo = asyncWrapOrError(async (req: any, res: Response) => {
@@ -74,12 +72,6 @@ export const userInfo = asyncWrapOrError(async (req: any, res: Response) => {
         value: '"username":"(?<username>[^\"]+)"'
       }
     ],
-    responseRedactions: [
-      /* redact the username from the response body */ 
-      {
-        jsonPath: '$.data.username',
-      }
-    ]
   });
 
   if(!proof) {
@@ -98,3 +90,8 @@ export const isLoggedIn = asyncWrapOrError(async (req: any, res: Response) => {
   return res.status(200).json({ loggedIn: false });
 });
 
+
+export const logout = asyncWrapOrError(async (req: any, res: Response) => {
+  req.session = null;
+  return res.status(200).send('logged out');
+});

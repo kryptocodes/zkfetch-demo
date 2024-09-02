@@ -15,7 +15,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@reclaimprotocol/zk-fetch": "git+https://gitlab.reclaimprotocol.org/integrations/offchain/zk-fetch#455499a171fe1bb78f8cf16e7eaed73780702d25",
+    "@reclaimprotocol/zk-fetch": "git+https://gitlab.reclaimprotocol.org/integrations/offchain/zk-fetch#58cf46cd9c24ba921099542d7254dccfc941ba42",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
